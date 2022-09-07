@@ -1,0 +1,33 @@
+.CounterInput {
+ background-color: aquamarine;
+ padding: 1rem;
+ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+ width: 400px;
+ border-radius: 10px;
+ display: flex;
+ justify-content: space-around;
+ flex-wrap: wrap;
+ gap: 1rem;
+ margin: 0 auto;
+ font-size: 1.5rem;
+
+ button {
+  background-color: rgb(73, 196, 201);
+  border-radius: 5px;
+  width: 50px;
+  margin: 5px;
+ }
+
+ input {
+  border: none;
+  background-color: rgb(142, 248, 151);
+  border-radius: 5px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-align: center;
+ }
+
+ p {
+  width: 50%;
+  text-align: center;
+ }
+}

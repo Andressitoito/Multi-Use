@@ -1,0 +1,29 @@
+nav {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ background-color: #000;
+ padding: 10px;
+
+ nav img {
+  width: 100px;
+ }
+
+ .links a {
+  color: #fff;
+  margin: 0 15px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 8px;
+ }
+
+ .links i {
+  margin: 0 10px;
+ }
+
+ .links a:hover {
+  color: rgb(57, 222, 1);
+  border-bottom: 2px solid rgb(57, 222, 1);
+ }
+
+}
