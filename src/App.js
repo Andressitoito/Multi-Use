@@ -2,11 +2,12 @@ import './App.scss'
 
 /* IMPORT COMPONENTS */
 import {
-  Layout,
+  Layout, 
+  LoginInputs,
   // MapButtons,
   // HiddenMenu,
   // CounterInput,
-  Questions
+  // Questions,
 } from './components';
 
 const App = () => {
@@ -18,7 +19,8 @@ const App = () => {
           {/* {<MapButtons/>} */}
           {/* {<HiddenMenu/>} */}
           {/* {<CounterInput />} */}
-          <Questions />
+          {/* <Questions /> */}
+          <LoginInputs/>
 
         </div>
       </Layout>

@@ -1,3 +1,6 @@
+$--bg--login--1: rgb(24, 174, 46);
+
+
 html,
 body,
 div,
@@ -149,4 +152,9 @@ button {
     outline: none;
     border: 0;
     cursor: pointer;
+}
+
+
+:root{
+    --background-color-root: red
 }
