@@ -6,3 +6,19 @@ $--bg--input--2:rgb(47, 255, 99);
 
 $--font--1:darkred;
 $--font--2:rgb(251, 152, 168);
+
+
+/* 
+Descripcion de la situacion en cuestion:
+
+1) El handleChange del input llama a la funcion *validateFields()*
+
+2) La funcion hace una comprobacion ejecutando la vlidacion del email
+
+3) En el condicional la funcion *validateEmail()* se ejecuta y retorna su respectivo resultado true o false respectivamente
+
+4) *_Situacion incongruente_*, la funcion (que en este caso la probe con una *function* no arrow para probar si era tema de scope el problema), si bien retorna en este caso su respectivo _true o false_, no me esta ejecutando el cambio de estado setState(...error, email:true) o setState(...error, email:false)
+
+Fijese usted en la foto de la consola en la cual se puede observar el NO cambio del estado en cuestion
+
+*/

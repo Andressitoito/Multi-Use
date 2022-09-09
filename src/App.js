@@ -3,7 +3,7 @@ import './App.scss'
 /* IMPORT COMPONENTS */
 import {
   Layout, 
-  LoginInputs,
+  // LoginInputs,
   // MapButtons,
   // HiddenMenu,
   // CounterInput,
@@ -20,7 +20,7 @@ const App = () => {
           {/* {<HiddenMenu/>} */}
           {/* {<CounterInput />} */}
           {/* <Questions /> */}
-          <LoginInputs/>
+          {/* <LoginInputs/> */}
 
         </div>
       </Layout>

@@ -34,38 +34,44 @@ const LoginInputs = () => {
 
  const validateEmptyFields = () => {
   if (values.email === '' || values.password === '') {
-  console.log(values.email, values.password)
+   console.log(values.email, values.password)
    setError({
     ...error,
     emptyFields: true,
-    errors: true
+    // errors: true
    })
    return true
   } else {
    setError({
     ...error,
     emptyFields: false,
-    errors: false
+    // errors: false
    })
    return false
   }
  }
 
- const validateEmail = () => {
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-
-  if (!emailRegex.test(values.email)) {
+ function validateEmail() {
+  // const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  // if (!emailRegex.test(values.email)) {
+  // console.log(!emailRegex.test(values.email))
+  if (values.email.length < 3) {
+   console.log(`🚀 ===> validateEmail ===> values.email.length`, values.email.length)
    setError({
     ...error,
     email: true,
-    errors: true
    })
+   return true
+  } else {
+   setError({
+    ...error,
+    email: false,
+   })
+   return false
   }
-
  }
+
  const validatePassword = () => {
-
-
   if (values.password.length < 6) {
    console.log(values.password)
    setError({
@@ -80,21 +86,25 @@ const LoginInputs = () => {
 
  const validateFields = () => {
 
-  console.log(values)
-console.log(validateEmptyFields())
+ console.log(validateEmail())
+
   if (
-   validateEmptyFields()
-   // || validateEmail()
-   // || validatePassword()
+    validateEmptyFields()
+    || 
+   validateEmail()
+   || validatePassword()
   ) {
-   return console.log('TODO MAL')
-  }
-  else {
-   console.log('entro aca')
+   console.log('TODO MAL')
    return setError({
+    ...error,
+    email: true,
+    errors: true
+   })
+  } else {
+   console.log('Todo bien capo')
+   return setError({
+    ...error,
     email: false,
-    password: false,
-    emptyFields: false,
     errors: false
    })
   }
@@ -107,6 +117,7 @@ console.log(validateEmptyFields())
    [e.target.name]: e.target.value
   })
   validateFields()
+  // validateEmail()
   console.log(error)
  }
 

@@ -2,23 +2,25 @@ import React from "react";
 
 import './Navbar.scss'
 
+import {IoIosCloud, IoIosHome, IoIosMailOpen} from "react-icons/io";
+
 const Navbar = () => {
 
  const links = [
   {
    id: 1,
    label: "About",
-   icon: "fa-solid fa-circle-info"
+   icon: <IoIosCloud/>
   },
   {
    id: 2,
    label: "Contact",
-   icon: "fa-solid fa-envelope"
+   icon: <IoIosHome/>
   },
   {
    id: 3,
    label: "Account",
-   icon: "fa-solid fa-user"
+   icon: <IoIosMailOpen/>
   }
  ]
 
@@ -26,7 +28,7 @@ const Navbar = () => {
   <nav>
    <div className="links">
 
-    {links.map(link => <a href="www.google.com" key={link.id}> <i className={link.label}></i>{link.label}</a>)}
+    {links.map(link => <a href="www.google.com" key={link.id}>{link.icon} {link.label}</a>)}
    </div>
 
   </nav >
