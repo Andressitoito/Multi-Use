@@ -2,30 +2,34 @@ import './App.scss'
 
 /* IMPORT COMPONENTS */
 import {
-  Layout, 
-  // LoginInputs,
-  // MapButtons,
-  // HiddenMenu,
-  // CounterInput,
-  // Questions,
+ Layout, 
+ NavBarLogin,
+ // ToDoList,
+ // LoginInputs,
+ // MapButtons,
+ // HiddenMenu,
+ // CounterInput,
+ // Questions,
 } from './components';
 
 const App = () => {
-  return (
-    <div className='App'>
-      <Layout >
-        <div className='App-Box'>
+ return (
+  <div className='App'>
+   <Layout >
 
-          {/* {<MapButtons/>} */}
-          {/* {<HiddenMenu/>} */}
-          {/* {<CounterInput />} */}
-          {/* <Questions /> */}
-          {/* <LoginInputs/> */}
+    {/* {<MapButtons/>} */}
+    {/* {<HiddenMenu/>} */}
+    {/* {<CounterInput />} */}
+    {/* <Questions /> */}
+    {/* <LoginInputs/> */}
+    {/* <ToDoList /> */}
 
-        </div>
-      </Layout>
-    </div>
-  )
+
+    <NavBarLogin/>
+
+   </Layout>
+  </div>
+ )
 }
 
 export default App;
