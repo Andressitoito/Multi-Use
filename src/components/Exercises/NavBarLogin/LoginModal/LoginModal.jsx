@@ -7,8 +7,6 @@ import { useEffect } from "react";
 
 const LoginModal = ({ openLogin, handleCloseLogin }) => {
 
- const open = openLogin
-
  const style = {
   position: "absolute",
   top: "50%",
@@ -85,7 +83,7 @@ const LoginModal = ({ openLogin, handleCloseLogin }) => {
      }
     }
    ))
-   console.table(error[field])
+   // console.table(error[field])
   } else {
    setError(prevError => (
     {
@@ -96,7 +94,7 @@ const LoginModal = ({ openLogin, handleCloseLogin }) => {
      }
     }
    ))
-   console.table(error[field].empty)
+   // console.table(error[field].empty)
   }
 
 
@@ -149,7 +147,7 @@ const LoginModal = ({ openLogin, handleCloseLogin }) => {
  return (
   <div>
    <Modal
-    open={open}
+    open={openLogin}
     onClose={handleCloseLogin}
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"

@@ -5,11 +5,11 @@ import { useState } from "react";
 import "./SignUpModal.scss";
 import { useEffect } from "react";
 
-const SignUpModal = ({ Open, handleCloseSignUp }) => {
+const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
 
 
- const open = true
- 
+
+
  const style = {
   position: "absolute",
   top: "50%",
@@ -69,14 +69,12 @@ const SignUpModal = ({ Open, handleCloseSignUp }) => {
    repeatPassword: '',
    showPassword: false,
   });
-  // handleClose()
+  handleCloseSignUp()
  }
 
- const validateField = (field) => {
 
-
+ const validateEmptyField = (field) => {
   if (values[field] === '') {
-
    setError(prevError => (
     {
      ...prevError,
@@ -86,7 +84,6 @@ const SignUpModal = ({ Open, handleCloseSignUp }) => {
      }
     }
    ))
-   // console.table(error[field])
   } else {
    setError(prevError => (
     {
@@ -97,60 +94,97 @@ const SignUpModal = ({ Open, handleCloseSignUp }) => {
      }
     }
    ))
-   // console.table(error[field].empty)
   }
+ }
 
+ const validatePassword = (field) => {
+  if (field === 'password') {
 
-  /*   if (values[field] === 'password') {
-     if (values[field] < 8) {
-      setError({ 
-       ...error,
-       error[field].invalid = true
-      )
+   const regex = /^(?!.* )(?=.*)(?=.*[A-Z]).{8,}$/
+
+   if (!regex.test(values[field])) {
+
+    setError(prevError => (
+     {
+      ...prevError,
+      [field]: {
+       ...prevError[field],
+       invalid: true
+      }
      }
-    }
-    if (values[field] === 'username') {
-     const regex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
-     if (!regex.test(values[field])) {
-      setError(
-       ...error,
-       error[field].invalid = true
-      )
+    ))
+
+   } else {
+    setError(prevError => (
+     {
+      ...prevError,
+      [field]: {
+       ...prevError[field],
+       invalid: false
+      }
      }
-    } */
+    ))
+   }
+  }
+ }
 
+ const validateUsername = (field) => {
 
+  if (field === 'username') {
+   const regex = /^(?=.{3,}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
+
+   if (!regex.test(values[field])) {
+    setError(prevError => ({
+     ...prevError,
+     [field]: {
+      invalid: true
+     }
+    }))
+   } else {
+    setError(prevError => ({
+     ...prevError,
+     [field]: {
+      invalid: false
+     }
+    }))
+   }
+  }
+ }
+
+ const validateRepeatPassword = (field) => {
+  if (field === 'repeatPassword') {
+   if (values.repeatPassword === values.password) {
+    console.log('son iguales')
+   } else {
+    console.log('son diferentes')
+    console.log('son diferentes')
+    console.log('son diferentes')
+   }
+  }
  }
 
  useEffect(() => {
 
-
-
-  validateField('username')
-  // validateField('username')
+  validateEmptyField('username')
+  validateEmptyField('password')
+  validateUsername('username')
+  validatePassword('password')
+  validateRepeatPassword('repeatPassword')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
- }, [values.username])
+ }, [values])
+
+ useEffect(() => {
 
 
- /* 
-  
- 16gb 2400
-  
- 27 892 557
-  
- 15gb 1700
-  
-  
-  
-  
-  
- */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, [])
+
 
  return (
   <div>
    <Modal
-    open={open}
+    open={openSignUp}
     onClose={handleCloseSignUp}
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"
@@ -183,7 +217,11 @@ const SignUpModal = ({ Open, handleCloseSignUp }) => {
        />
        {
         error.username.empty &&
-        <FormHelperText id="component-error-text">Invalid username</FormHelperText>
+        <FormHelperText id="component-error-text">Fill username</FormHelperText>
+       }
+       {
+        error.username.invalid &&
+        <FormHelperText error id="component-error-text">Min 3 characters, no spaces</FormHelperText>
        }
       </FormControl>
      </Box>
@@ -217,6 +255,14 @@ const SignUpModal = ({ Open, handleCloseSignUp }) => {
          </InputAdornment>
         }
        />
+       {
+        error.password.empty &&
+        <FormHelperText error id="component-error-text">Fill password</FormHelperText>
+       }
+       {
+        error.password.invalid &&
+        <FormHelperText error id="component-error-text">Min 8 characters or numbers, no spaces, one capital letter</FormHelperText>
+       }
       </FormControl>
 
      </Box>
@@ -235,7 +281,7 @@ const SignUpModal = ({ Open, handleCloseSignUp }) => {
        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
        <Input
         type={values.showPassword ? 'text' : 'password'}
-        value={values.password}
+        value={values.repeatPassword}
         onChange={handleChange('repeatPassword')}
         endAdornment={
          <InputAdornment position="end">
@@ -249,6 +295,10 @@ const SignUpModal = ({ Open, handleCloseSignUp }) => {
          </InputAdornment>
         }
        />
+       {
+        error.repeatPassword.invalid &&
+        <FormHelperText error >Invalid password</FormHelperText>
+       }
       </FormControl>
 
      </Box>
