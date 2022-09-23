@@ -7,8 +7,18 @@ import { useEffect } from "react";
 
 const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
 
+ const [disableSubmit, setDisableSubmit] = useState(true)
 
+ const [validateError, setValidateError] = useState({})
 
+ const [userTaken, setUserTaken] = useState(false)
+
+ const [values, setValues] = useState({
+  username: '',
+  password: '',
+  repeatPassword: '',
+  showPassword: false,
+ });
 
  const style = {
   position: "absolute",
@@ -22,29 +32,6 @@ const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
   p: 4,
   borderRadius: 2,
  };
-
- const [values, setValues] = useState({
-  username: '',
-  password: '',
-  repeatPassword: '',
-  showPassword: false,
- });
-
- const [error, setError] = useState({
-  username: {
-   invalid: false,
-   empty: false,
-   taken: false
-  },
-  password: {
-   invalid: false,
-   empty: false
-  },
-  repeatPassword: {
-   invalid: false,
-   empty: false
-  }
- })
 
  const handleChange = (prop) => (event) => {
   setValues({ ...values, [prop]: event.target.value });
@@ -61,125 +48,115 @@ const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
   event.preventDefault();
  };
 
+ const checkAndCreateNewUser = () => {
+
+  const multiUseData = JSON.parse(localStorage.getItem('multiUseData'))
+
+  if (!multiUseData.hasOwnProperty('users')) {
+   console.table(multiUseData)
+   console.table('no existn usuarios')
+
+   multiUseData.users = [{
+    username: values.username,
+    password: values.password
+   }]
+
+   localStorage.setItem('multiUseData', JSON.stringify(multiUseData))
+
+  } else {
+
+   let { users } = multiUseData
+
+   const repeatedUser = users.find(user => user.username === values.username)
+
+   if (repeatedUser === undefined) {
+    users.push({
+     username: values.username,
+     password: values.password
+    })
+
+    setUserTaken(false)
+
+    localStorage.setItem('multiUseData', JSON.stringify(multiUseData))
+
+    setValues({
+     username: '',
+     password: '',
+     repeatPassword: '',
+     showPassword: false,
+    });
+
+    handleCloseSignUp()
+
+   } else {
+    setUserTaken(true)
+   }
+  }
+ }
+
  const handleSubmit = (e) => {
   e.preventDefault()
-  setValues({
-   username: '',
-   password: '',
-   repeatPassword: '',
-   showPassword: false,
-  });
-  handleCloseSignUp()
+
+  checkAndCreateNewUser()
+
  }
 
+ const validateFields = () => {
+  const errors = {}
 
- const validateEmptyField = (field) => {
-  if (values[field] === '') {
-   setError(prevError => (
-    {
-     ...prevError,
-     [field]: {
-      ...prevError[field],
-      empty: true
-     }
-    }
-   ))
+  // EMPTY USERNAME
+  if (values.username === '') {
+   errors.usernameEmpty = true
   } else {
-   setError(prevError => (
-    {
-     ...prevError,
-     [field]: {
-      ...prevError[field],
-      empty: false
-     }
-    }
-   ))
+   delete errors.usernameEmpty
   }
- }
-
- const validatePassword = (field) => {
-  if (field === 'password') {
-
-   const regex = /^(?!.* )(?=.*)(?=.*[A-Z]).{8,}$/
-
-   if (!regex.test(values[field])) {
-
-    setError(prevError => (
-     {
-      ...prevError,
-      [field]: {
-       ...prevError[field],
-       invalid: true
-      }
-     }
-    ))
-
-   } else {
-    setError(prevError => (
-     {
-      ...prevError,
-      [field]: {
-       ...prevError[field],
-       invalid: false
-      }
-     }
-    ))
-   }
+  // EMPTY PASSWORD
+  if (values.password === '') {
+   errors.passwordEmpty = true
+  } else {
+   delete errors.passwordEmpty
   }
- }
-
- const validateUsername = (field) => {
-
-  if (field === 'username') {
-   const regex = /^(?=.{3,}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
-
-   if (!regex.test(values[field])) {
-    setError(prevError => ({
-     ...prevError,
-     [field]: {
-      invalid: true
-     }
-    }))
-   } else {
-    setError(prevError => ({
-     ...prevError,
-     [field]: {
-      invalid: false
-     }
-    }))
-   }
+  // EMPTY REPEATPASSWORD
+  if (values.repeatPassword === '') {
+   errors.repeatPasswordEmpty = true
+  } else {
+   delete errors.repeatPasswordEmpty
   }
- }
-
- const validateRepeatPassword = (field) => {
-  if (field === 'repeatPassword') {
-   if (values.repeatPassword === values.password) {
-    console.log('son iguales')
-   } else {
-    console.log('son diferentes')
-    console.log('son diferentes')
-    console.log('son diferentes')
-   }
+  // VALIDATE USERNAME
+  const regexUsername = /^(?=.{3,}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
+  if (!regexUsername.test(values.username)) {
+   errors.invalidUsername = true
+  } else {
+   delete errors.invalidUsername
   }
+  // VALIDATE PASSWORD
+  const regexPassword = /^(?!.* )(?=.*)(?=.*[A-Z]).{8,}$/
+  if (!regexPassword.test(values.password)) {
+   errors.invalidPassword = true
+  } else {
+   delete errors.invalidPassword
+  }
+  // VALIDATE REPEATPASSWORD
+  if (values.password !== values.repeatPassword) {
+   errors.invalidRepeatPassword = true
+  } else {
+   delete errors.invalidRepeatPassword
+  }
+
+  setValidateError({ errors })
+  const errorKeys = Object.keys(errors)
+
+  errorKeys.length === 0
+   ? setDisableSubmit(false)
+   : setDisableSubmit(true)
+
  }
 
  useEffect(() => {
 
-  validateEmptyField('username')
-  validateEmptyField('password')
-  validateUsername('username')
-  validatePassword('password')
-  validateRepeatPassword('repeatPassword')
-
+  validateFields()
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [values])
-
- useEffect(() => {
-
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
- }, [])
-
 
  return (
   <div>
@@ -216,11 +193,15 @@ const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
         onChange={handleChange('username')}
        />
        {
-        error.username.empty &&
-        <FormHelperText id="component-error-text">Fill username</FormHelperText>
+        userTaken &&
+        <FormHelperText error id="component-error-text">This username is already taken</FormHelperText>
        }
        {
-        error.username.invalid &&
+        validateError.errors?.usernameEmpty &&
+        <FormHelperText error id="component-error-text">Fill username</FormHelperText>
+       }
+       {
+        validateError.errors?.invalidUsername &&
         <FormHelperText error id="component-error-text">Min 3 characters, no spaces</FormHelperText>
        }
       </FormControl>
@@ -256,11 +237,11 @@ const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
         }
        />
        {
-        error.password.empty &&
+        validateError.errors?.passwordEmpty &&
         <FormHelperText error id="component-error-text">Fill password</FormHelperText>
        }
        {
-        error.password.invalid &&
+        validateError.errors?.invalidPassword &&
         <FormHelperText error id="component-error-text">Min 8 characters or numbers, no spaces, one capital letter</FormHelperText>
        }
       </FormControl>
@@ -296,11 +277,14 @@ const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
         }
        />
        {
-        error.repeatPassword.invalid &&
-        <FormHelperText error >Invalid password</FormHelperText>
+        validateError.errors?.repeatPasswordEmpty &&
+        <FormHelperText error >Repeat password</FormHelperText>
+       }
+       {
+        validateError.errors?.invalidRepeatPassword &&
+        <FormHelperText error >Passwords do not match</FormHelperText>
        }
       </FormControl>
-
      </Box>
 
      {/* SIGN IN - CANCEL */}
@@ -319,6 +303,7 @@ const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
        onClick={handleCloseSignUp}>Cancel</Button>
 
       <Button
+       disabled={disableSubmit}
        variant='contained'
        type='submit'
        color='primary'
@@ -331,3 +316,104 @@ const SignUpModal = ({ openSignUp, handleCloseSignUp }) => {
 };
 
 export { SignUpModal };
+
+
+/* 
+
+ const validateEmptyField = (field) => {
+  if (values[field] === '') {
+   setError(prevError => ({
+    ...prevError,
+    [field]: {
+     ...prevError[field],
+     empty: true
+    }
+   }))
+  } else {
+   setError(prevError => ({
+    ...prevError,
+    [field]: {
+     ...prevError[field],
+     empty: false
+    }
+   }))
+  }
+ }
+
+ const validatePassword = (field) => {
+  if (field === 'password') {
+
+   const regex = /^(?!.* )(?=.*)(?=.*[A-Z]).{8,}$/
+
+   if (!regex.test(values[field])) {
+
+    setError(prevError => (
+     {
+      ...prevError,
+      [field]: {
+       ...prevError[field],
+       invalid: true
+      }
+     }
+    ))
+
+   } else {
+    setError(prevError => (
+     {
+      ...prevError,
+      [field]: {
+       ...prevError[field],
+       invalid: false
+      }
+     }
+    ))
+    
+   }
+  }
+ }
+
+ const validateUsername = (field) => {
+  if (field === 'username') {
+   const regex = /^(?=.{3,}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
+   if (!regex.test(values[field])) {
+    setError(prevError => ({
+     ...prevError,
+     [field]: {
+      ...prevError[field],
+      invalid: true
+     }
+    }))
+   } else {
+    setError(prevError => ({
+     ...prevError,
+     [field]: {
+      ...prevError[field],
+      invalid: false
+     }
+    }))
+   }
+  }
+ }
+
+ const validateRepeatPassword = (field) => {
+  if (field === 'repeatPassword') {
+   if (values.repeatPassword === values.password) {
+    setError(prevError => ({
+     ...prevError,
+     [field]: {
+      ...prevError[field],
+      invalid: false
+     }
+    }))
+   } else {
+    setError(prevError => ({
+     ...prevError,
+     [field]: {
+      invalid: true
+     }
+    }))
+   }
+  }
+ }
+
+*/

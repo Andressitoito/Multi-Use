@@ -15,7 +15,7 @@ const ToDoList = () => {
     className='ToDoList'
     sx={{
      width: 300,
-     my: 'auto',
+     my: 5,
      mx: 'auto',
      borderRadius: 3,
      p: 2,

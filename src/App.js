@@ -3,8 +3,8 @@ import './App.scss'
 /* IMPORT COMPONENTS */
 import {
  Layout, 
- NavBarLogin,
- // ToDoList,
+ // NavBarLogin,
+ ToDoList,
  // LoginInputs,
  // MapButtons,
  // HiddenMenu,
@@ -22,10 +22,10 @@ const App = () => {
     {/* {<CounterInput />} */}
     {/* <Questions /> */}
     {/* <LoginInputs/> */}
-    {/* <ToDoList /> */}
+    <ToDoList />
 
 
-    <NavBarLogin/>
+    {/* <NavBarLogin/> */}
 
    </Layout>
   </div>
