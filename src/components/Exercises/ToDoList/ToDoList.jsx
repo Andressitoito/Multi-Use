@@ -4,11 +4,20 @@ import { Stack } from '@mui/system';
 import { TitleDark } from './TitleDark';
 import { TaskInput } from './TaskInput';
 import { ItemList } from './ItemList';
+import { useState } from 'react';
+
 
 const ToDoList = () => {
 
+ const [taskValue, setTaskValue] = useState('')
 
- 
+ const handleChangeInput = (e) => {
+  setTaskValue(e.target.value)
+ }
+
+const [ clickOk, setClickOk ] = useState(true)
+
+
  return (
   <Container>
    <Box
@@ -25,8 +34,18 @@ const ToDoList = () => {
    >
     <Stack>
      <TitleDark />
-     <TaskInput />
-     <ItemList/>
+
+     <TaskInput
+     handleChangeInput={handleChangeInput}
+     taskValue={taskValue}
+     setClickOk={setClickOk}
+     clickOk={clickOk}
+     
+     />
+
+     <ItemList 
+     clickOk={clickOk}
+     />
 
     </Stack>
    </Box>

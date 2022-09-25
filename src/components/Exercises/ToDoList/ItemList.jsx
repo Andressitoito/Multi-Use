@@ -1,28 +1,14 @@
 import { Container } from '@mui/material';
+import { useEffect } from 'react';
 import './ItemList.scss'
 import { Task } from './Task';
 
-const ItemList = () => {
+const ItemList = ({ clickOk }) => {
 
+ const TaskList = JSON.parse(localStorage.getItem('TodoList'))
 
- const array = [
-  {
-   id: 1,
-   text: 'Algo es asdsadfaasfdcrito'
-  },
-  {
-   id: 2,
-   text: 'Algo es asdsadfaasfdcrito'
-  },
-  {
-   id: 3,
-   text: 'Algo es asdsadfaasfdcrito'
-  },
-  {
-   id: 4,
-   text: 'Algo es asdsadfaasfdcrito'
-  },
- ]
+ useEffect(() => {
+ }, [clickOk])
 
  return (
   <Container
@@ -35,12 +21,12 @@ const ItemList = () => {
    }}>
 
    {
-    array.map(item =>
+    TaskList && TaskList.map((elem, index) => (
      <Task
-     key={item.id}
-     text={item.task}
-
-     />)
+      key={index}
+      task={elem.task}
+     />
+    ))
    }
 
   </Container>

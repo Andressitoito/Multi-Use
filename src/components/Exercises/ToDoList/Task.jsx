@@ -3,8 +3,22 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { Box } from '@mui/system';
 import './Task.scss'
 
-const Task = () => {
+const Task = ({ task }) => {
 
+
+ const handleClick = () => {
+
+  let TodoList = JSON.parse(localStorage.getItem('TodoList'))
+
+  const NewList = TodoList.find(elem => {
+   return elem.task !== task
+
+  })
+
+  console.log(NewList)
+
+
+ }
 
 
  return (
@@ -17,8 +31,8 @@ const Task = () => {
     borderRadius: 2,
     mb: 1,
    }}
-   style={{boxShadow: '0px 0px 5px #0005' }}
-   >
+   style={{ boxShadow: '0px 0px 5px #0005' }}
+  >
    <Box
     sx={{
      display: 'flex',
@@ -28,12 +42,15 @@ const Task = () => {
     }}>
     <Checkbox color="success" />
     <Typography>
-      
+     {task}
     </Typography>
    </Box>
    <Box>
-    <IconButton>
-     <HiOutlineTrash />
+    <IconButton
+     onClick={handleClick}
+    >
+     <HiOutlineTrash
+     />
     </IconButton>
    </Box>
 
