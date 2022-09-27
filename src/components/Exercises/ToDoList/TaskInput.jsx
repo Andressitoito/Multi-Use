@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { MdCheck } from "react-icons/md";
 import './TaskInput.scss'
 
-const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk }) => {
+const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk, setTaskValue }) => {
 
  const [disableClick, setDisableClick] = useState(true)
 
@@ -12,8 +12,6 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk }) => {
   let TodoList = JSON.parse(localStorage.getItem('TodoList'))
 
   if (TodoList === null) {
-   console.table('no existe lista')
-
    TodoList = [{
     id: 0,
     task: taskValue,
@@ -21,16 +19,21 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk }) => {
    }]
 
    localStorage.setItem('TodoList', JSON.stringify(TodoList))
-   console.table(TodoList)
-
   } else {
 
-   const lastId = [...TodoList].pop() 
-   const newId = lastId.id + 1
-   console.log(lastId.id)
-   console.log(newId)
-   console.log(TodoList)
+   let newId = ''
 
+   const getLastId = () => {
+    const lastId = [...TodoList].pop()
+    const newId = lastId?.id + 1
+    return newId
+   }
+   
+   if (isNaN(getLastId())) {
+    newId = 0
+   } else {
+    newId = getLastId()
+   }
    TodoList.push({
     id: newId,
     task: taskValue,
@@ -38,10 +41,10 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk }) => {
    })
 
    localStorage.setItem('TodoList', JSON.stringify(TodoList))
-   console.table(TodoList)
   }
 
   setClickOk(!clickOk)
+  setTaskValue('')
  }
 
  useEffect(() => {
@@ -75,7 +78,14 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk }) => {
      onChange={handleChangeInput}
     />
     <IconButton
-     sx={{ boxShadow: '0px 0px 5px #0005' }}
+     sx={{
+      boxShadow:
+       disableClick
+        ? '0px 0px 5px #0005'
+        : '0px 0px 5px #33CC66'
+      ,
+      color: 'green'
+     }}
      disabled={disableClick}
      onClick={handleClickTask}
     >

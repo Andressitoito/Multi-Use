@@ -15,15 +15,14 @@ const ToDoList = () => {
   setTaskValue(e.target.value)
  }
 
-const [ clickOk, setClickOk ] = useState(true)
-
+ const [clickOk, setClickOk] = useState(true)
 
  return (
   <Container>
    <Box
     className='ToDoList'
     sx={{
-     width: 300,
+     width: 400,
      my: 5,
      mx: 'auto',
      borderRadius: 3,
@@ -36,15 +35,16 @@ const [ clickOk, setClickOk ] = useState(true)
      <TitleDark />
 
      <TaskInput
-     handleChangeInput={handleChangeInput}
-     taskValue={taskValue}
-     setClickOk={setClickOk}
-     clickOk={clickOk}
-     
+      handleChangeInput={handleChangeInput}
+      taskValue={taskValue}
+      setClickOk={setClickOk}
+      clickOk={clickOk}
+      setTaskValue={setTaskValue}
      />
 
-     <ItemList 
-     clickOk={clickOk}
+     <ItemList
+      clickOk={clickOk}
+      setClickOk={setClickOk}
      />
 
     </Stack>
