@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { MdCheck } from "react-icons/md";
 import './TaskInput.scss'
 
-const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk, setTaskValue }) => {
+const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk, setTaskValue, theme }) => {
 
  const [disableClick, setDisableClick] = useState(true)
 
@@ -28,7 +28,7 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk, setTaskV
     const newId = lastId?.id + 1
     return newId
    }
-   
+
    if (isNaN(getLastId())) {
     newId = 0
    } else {
@@ -61,7 +61,11 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk, setTaskV
     width: '100%',
     boxShadow: 1,
     borderRadius: 1,
-    my: 1
+    my: 1,
+    backgroundColor: theme
+     && '#909090',
+    color: theme
+     && '#E8E8E8'
    }}>
    <Box
     sx={{
@@ -70,6 +74,12 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk, setTaskV
     }}
    >
     <TextField
+     sx={{
+      backgroundColor:
+       theme
+        ? '#E8E8E8'
+        : '#E8E8E8'
+     }}
      size='small'
      label="Insert Task"
      fullWidth
@@ -84,8 +94,14 @@ const TaskInput = ({ taskValue, handleChangeInput, setClickOk, clickOk, setTaskV
         ? '0px 0px 5px #0005'
         : '0px 0px 5px #33CC66'
       ,
-      color: 'green'
+      color: 'green',
      }}
+
+     style={{
+      backgroundColor: theme
+       && '#FFFFFF'
+     }}
+
      disabled={disableClick}
      onClick={handleClickTask}
     >

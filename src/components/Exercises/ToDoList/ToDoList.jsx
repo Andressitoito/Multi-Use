@@ -6,8 +6,9 @@ import { TaskInput } from './TaskInput';
 import { ItemList } from './ItemList';
 import { useState } from 'react';
 
-
 const ToDoList = () => {
+
+ const [ theme, setTheme ] = useState(false)
 
  const [taskValue, setTaskValue] = useState('')
 
@@ -28,11 +29,17 @@ const ToDoList = () => {
      borderRadius: 3,
      p: 2,
      boxShadow: 2,
-     maxWidth: 400
+     maxWidth: 400,
+     backgroundColor: theme
+     && '#696969'
+     
     }}
    >
     <Stack>
-     <TitleDark />
+     <TitleDark
+     theme={theme}
+     setTheme={setTheme}
+     />
 
      <TaskInput
       handleChangeInput={handleChangeInput}
@@ -40,11 +47,13 @@ const ToDoList = () => {
       setClickOk={setClickOk}
       clickOk={clickOk}
       setTaskValue={setTaskValue}
+      theme={theme}
      />
 
      <ItemList
       clickOk={clickOk}
       setClickOk={setClickOk}
+      theme={theme}
      />
 
     </Stack>

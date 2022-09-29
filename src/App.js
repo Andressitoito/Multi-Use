@@ -2,9 +2,10 @@ import './App.scss'
 
 /* IMPORT COMPONENTS */
 import {
- Layout, 
+ Layout,
+ Validations,
  // NavBarLogin,
- ToDoList,
+ // ToDoList,
  // LoginInputs,
  // MapButtons,
  // HiddenMenu,
@@ -22,7 +23,9 @@ const App = () => {
     {/* {<CounterInput />} */}
     {/* <Questions /> */}
     {/* <LoginInputs/> */}
-    <ToDoList />
+    {/* <ToDoList /> */}
+    {/* <Fetchs /> */}
+    <Validations/>
 
 
     {/* <NavBarLogin/> */}

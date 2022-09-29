@@ -1,13 +1,10 @@
-import { IconButton, Typography, Switch, TextField } from '@mui/material';
+import { IconButton, Switch, TextField } from '@mui/material';
 import { HiOutlineTrash } from "react-icons/hi";
 import { Box } from '@mui/system';
 import './Task.scss';
 import { useEffect } from 'react';
 
-
-
-const Task = ({ task, id, done, setOpenDelete, setTaskId, check, setCheck }) => {
-
+const Task = ({ task, id, done, setOpenDelete, setTaskId, check, setCheck, theme }) => {
 
  const handleClickDelete = () => {
   setOpenDelete(true)
@@ -46,11 +43,14 @@ const Task = ({ task, id, done, setOpenDelete, setTaskId, check, setCheck }) => 
     justifyContent: 'space-between',
     borderRadius: 2,
     mb: 1,
-    boxShadow: '0px 0px 5px #0005'
+    boxShadow: '0px 0px 5px #0005',
+    backgroundColor:
+    theme
+     && '#E8E8E8'
    }}
    style={{
     boxShadow:
-     done ? '0px 0px 5px #33CC66'
+     done ? '0px 0px 10px #33CC99'
       : '0px 0px 5px #0005',
     color: done ? '#33CC66'
      : '#282828'
@@ -72,23 +72,17 @@ const Task = ({ task, id, done, setOpenDelete, setTaskId, check, setCheck }) => 
 
     <TextField
      className='Task-TextField'
-     sx={{
-      p: 0,
-      color: 'red',
-     }}
      size='small'
      multiline={true}
      fullWidth
      maxRows={4}
      value={task}
-
+     variant='standard'
+     InputProps={{ 
+      disableUnderline: true,
+      }}
     />
 
-
-
-    {/* <Typography>
-     {task}
-    </Typography> */}
    </Box>
    <Box>
     <IconButton
@@ -108,22 +102,3 @@ const Task = ({ task, id, done, setOpenDelete, setTaskId, check, setCheck }) => 
 
 export { Task };
 
-
-
-/* <TextField
-      sx={{
-       fontSize: 1,
-       fontFamily: 'Segoe UI',
-      }}
-      className='Task-input'
-      label="Multiline Placeholder"
-      placeholder="Placeholder"
-      multiline
-      value={text}
-      InputProps={{
-       style: {
-        fontSize: 14,
-        readOnly: true
-       }
-      }}
-     /> */

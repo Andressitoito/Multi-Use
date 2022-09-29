@@ -4,7 +4,7 @@ import { DeleteConfirm } from './DeleteConfirm';
 import './ItemList.scss'
 import { Task } from './Task';
 
-const ItemList = ({ clickOk }) => {
+const ItemList = ({ clickOk, theme }) => {
 
  const [ check, setCheck ] = useState(false)
  const TaskList = JSON.parse(localStorage.getItem('TodoList'))
@@ -23,6 +23,9 @@ const ItemList = ({ clickOk }) => {
     boxShadow: 1,
     borderRadius: 1,
     my: 1,
+    backgroundColor: theme
+    && '#909090',
+
    }}>
 
    {
@@ -36,6 +39,7 @@ const ItemList = ({ clickOk }) => {
       setTaskId={setTaskId}
       check={check}
       setCheck={setCheck}
+      theme={theme}
      />
     ))
    }
